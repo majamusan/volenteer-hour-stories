@@ -15,8 +15,8 @@
     <link href="{{ asset('css/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
     <style>
     .hourBox {height: 123px; }
-    .ul {disp}
     .panel-footer ul li { display: inline-block;}
+    p{word-wrap: break-word;}
 
     </style>
 

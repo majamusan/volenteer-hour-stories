@@ -19,6 +19,7 @@ class DashboardController extends Controller
 		$allProjects = Projects::select('name')->get();
 		$allUsers = User::select('name')->get();
 		$rawDates = Stories::select('date')->get();
+		$allDates = [];
 		foreach ($rawDates as $rawDate ) {
 			$date = explode('-', $rawDate->date);
 			$allDates[$date[0].'-'.$date[1]] = (object)['name' => $date[0].'-'.$date[1]];

@@ -6,7 +6,7 @@
 
 	<strong><a href="/home/{{$d->displayName}}">{{$d->displayName}}</a></strong>
 	<br />
-	<small><a href="/stories/{{$d->id}}">{{$d->date}}</a></small>
+	<small><a href="/stories/{{$d->id}}">{{$d->date}}</a> {{$d->hours}} hours</small>
 	<div>
 		@for($i=0;$i<$d->hours;$i++)
 			*
