@@ -10,8 +10,10 @@
                         {{ $stories->date }}: {{ $stories->hours }} hour(s).
                     </div>
                     <div class="panel-body">
-                        <img src="{{ $users->find($stories->owner)->gravatar }}" /> 
-                        <p> {!! nl2br($stories->description) !!} </p>
+                        <p> 
+                            <img src="{{ $users->find($stories->owner)->gravatar }}" /> 
+                            {!! nl2br($stories->description) !!} 
+                        </p>
 
                         @if($stories->owner == Auth::user()->id)
                             <a href="{{ url('/stories/' . $stories->id . '/edit') }}" title="Edit Entry"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>

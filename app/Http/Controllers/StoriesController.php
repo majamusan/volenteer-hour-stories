@@ -37,7 +37,8 @@ class StoriesController extends Controller
         $projects = $this->projects;
 
         if (!empty($keyword)) {
-            $stories = Stories::where('date', 'LIKE', "%$keyword%")
+            $stories = Stories::select('stories.id','stories.owner','stories.project','stories.date','stories.hours')
+                ->where('date', 'LIKE', "%$keyword%")
                 ->orWhere('projects.name', 'LIKE', "%$keyword%")
                 ->orWhere('users.name', 'LIKE', "%$keyword%")
                 ->leftJoin('projects','stories.project','=','projects.id')

@@ -31,7 +31,7 @@
                                     <tr>
                                         <td><img src="{{ $users->find($item->owner)->gravatar }}" /> <strong>{{ $users->find($item->owner)->name }}</strong></td> <td>{{ $projects[$item->project] }}</td><td>{{ $item->date}}</td><td>{{ $item->hours}}</td>
                                         <td>
-                                            <a href="{{ url('/stories/' . $item->id) }}" title="View Post"><button class="btn btn-info btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                            <a href="{{ url('/stories/' . $item->id) }}" title="View Story"><button class="btn btn-info btn-xs"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
 
                                             @if($item->owner == Auth::user()->id)
                                                 <a href="{{ url('/stories/' . $item->id . '/edit') }}" title="Edit Post"><button class="btn btn-primary btn-xs"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
