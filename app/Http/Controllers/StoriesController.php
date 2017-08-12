@@ -20,7 +20,7 @@ class StoriesController extends Controller
         $this->formRules =  [
                 'project' => 'required',
                 'date' => 'required|date|before:tomorrow|after_or_equal:'.date('Y/m').'/01',
-                'description' => 'required|min:20|max:1500',
+                'description' => 'max:1500',
                 'hours' => 'required|integer|between:1,24'
             ];
     }
@@ -38,7 +38,10 @@ class StoriesController extends Controller
 
         if (!empty($keyword)) {
             $stories = Stories::where('date', 'LIKE', "%$keyword%")
-                ->orWhere('description', 'LIKE', "%$keyword%")
+                ->orWhere('projects.name', 'LIKE', "%$keyword%")
+                ->orWhere('users.name', 'LIKE', "%$keyword%")
+                ->leftJoin('projects','stories.project','=','projects.id')
+                ->leftJoin('users','stories.owner','=','users.id')
                 ->paginate($perPage);
         } else {
             $stories = Stories::where('owner','=',Auth::user()->id)->paginate($perPage);
