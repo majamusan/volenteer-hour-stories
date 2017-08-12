@@ -58,8 +58,9 @@ class StoriesController extends Controller
      */
     public function create()
     {
+        $stories = (object)['project' => 1];
         $projects = $this->projects;
-        return view('stories.create',compact('projects'));
+        return view('stories.create',compact('projects', 'stories'));
     }
 
     /**

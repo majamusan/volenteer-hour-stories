@@ -43,7 +43,9 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         @if (Auth::check())
-                            <li><a class="" href="{{ url('/stories/create') }}"> Add a story</a></li>
+                             <li><a href="{{ url('/home') }}" ><button class="btn btn-primary btn-xs"><i class="fa fa-home" aria-hidden="true"></i> View Dashboard</button></a></li>
+                             <li><a href="{{ url('/stories') }}" ><button class="btn btn-primary btn-xs"><i class="fa fa-list" aria-hidden="true"></i> All Stories</button></a></li>
+                             <li><a href="{{ url('/stories/create') }}" class="" title="Add New Story"> <button class="btn btn-primary btn-xs"><i class="fa fa-plus" aria-hidden="true"></i> Add A New Story</button></a></li>
                         @endif
                         &nbsp;
                     </ul>

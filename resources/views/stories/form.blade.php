@@ -1,7 +1,7 @@
 <div class="form-group {{ $errors->has('project') ? 'has-error' : ''}}">
     {!! Form::label('project', 'Project', ['class' => 'col-md-4 control-label']) !!}
     <div class="col-md-6">
-        {!! Form::select('project', $projects,  ['class' => 'form-control']) !!}
+        {!! Form::select('project', $projects, $stories->project,  ['class' => 'form-control']) !!}
         {!! $errors->first('project', '<p class="help-block">:message</p>') !!}
     </div>
 </div>

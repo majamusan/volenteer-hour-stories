@@ -12,7 +12,7 @@ class DashboardController extends Controller
       $this->middleware('auth');
    }
 
-	public function home($search = false){
+	public function home(User $users, $search = false){
 		//--------------------------------------------------------------------------------------------[setup]
 		$data = false;
 		$panel = view('bits.404-panel');
@@ -32,7 +32,7 @@ class DashboardController extends Controller
 			if($res = Projects::where('name','=',$search)->first() ){
 
 				$data = DB::table('users')
-						->select('users.name as displayName','stories.date','stories.hours')
+						->select('users.name as displayName','stories.date','stories.hours','stories.id','users.id as uid')
 						->leftJoin('stories','stories.owner','=','users.id')
 						->leftJoin('projects','stories.project','=','projects.id')
 						->where('stories.project','=',$res->id)
@@ -40,16 +40,15 @@ class DashboardController extends Controller
 
 			}else if($res = User::where('name','=',$search)->first() ){
 
-	
 				$data = DB::table('users')
-						->select('projects.name as displayName','stories.date','stories.hours')
+						->select('projects.name as displayName','stories.date','stories.hours','stories.id')
 						->leftJoin('stories','stories.owner','=','users.id')
 						->leftJoin('projects','stories.project','=','projects.id')
 						->where('users.id','=',$res->id)
 						->orderBy('stories.date');
 			}elseif($res = Stories::where('date','>',$search.'-01') ->where('date','<',$search.'-28') ->first() ){
 				$data = DB::table('users')
-						->select('users.name as displayName','stories.date','stories.hours')
+						->select('users.name as displayName','stories.date','stories.hours','stories.id','users.id as uid')
 						->leftJoin('stories','stories.owner','=','users.id')
 						->where('date','>=',$search.'-01') ->where('date','<=',$search.'-28')
 						->orderBy('stories.date');
@@ -58,7 +57,7 @@ class DashboardController extends Controller
 			if($data){
 				$info = $data->get();
 				$total = $data->sum('hours');
-				$panel = view('bits.bars-panel',compact('info','total'));
+				$panel = view('bits.bars-panel',compact('info','total','users'));
 			}
 			
 		//--------------------------------------------------------------------------------------------[users dashboard]
@@ -83,7 +82,9 @@ class DashboardController extends Controller
 																->where('project','=',$p->id)->sum('hours');
 			}
 
-			$panel = view('bits.home-panel',compact('hoursTotal','hoursMonth','hoursProjects','projects'));
+			$gravatar = User::find(Auth::user()->id)->gravatar;
+
+			$panel = view('bits.home-panel',compact('hoursTotal','hoursMonth','hoursProjects','projects','gravatar'));
 		}
 
       return view('home',compact('pageTitle','allProjects','allUsers','allDates','panel'));
