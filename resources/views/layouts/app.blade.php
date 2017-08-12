@@ -13,6 +13,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
+    <style>
+    .hourBox {height: 123px; }
+    .ul {disp}
+    .panel-footer ul li { display: inline-block;}
+
+    </style>
 
 </head>
 <body>
@@ -30,14 +36,15 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+                    <a class="navbar-brand" href="{{ url('/') }}"> {{ config('app.name', 'Laravel') }} </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+                        @if (Auth::check())
+                            <li><a class="" href="{{ url('/stories/create') }}"> Add a story</a></li>
+                        @endif
                         &nbsp;
                     </ul>
 
