@@ -1,3 +1,10 @@
+## To setup 
+
+- put db info into .env file 
+- run composer 
+- install laravel user package 
+- run testData seed 
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
