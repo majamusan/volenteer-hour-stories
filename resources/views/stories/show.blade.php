@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <strong>{{$projects[$stories->project]}}</strong> by <strong>{{$users->find($stories->owner)->name}}</strong>,
+                        <a href="/home/{{$projects[$stories->project]}}">{{$projects[$stories->project]}}</a> by <a href="/home/{{$users->find($stories->owner)->name}}">{{$users->find($stories->owner)->name}}</a>,
                         {{ $stories->date }}: {{ $stories->hours }} hour(s).
                     </div>
                     <div class="panel-body">

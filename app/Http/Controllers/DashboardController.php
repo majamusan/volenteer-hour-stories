@@ -18,7 +18,7 @@ class DashboardController extends Controller
 		$panel = view('bits.404-panel');
 		$allProjects = Projects::select('name')->get();
 		$allUsers = User::select('name')->get();
-		$rawDates = Stories::select('date')->get();
+		$rawDates = Stories::select('date')->orderBy('date')->get();
 		$allDates = [];
 		foreach ($rawDates as $rawDate ) {
 			$date = explode('-', $rawDate->date);
@@ -64,12 +64,20 @@ class DashboardController extends Controller
 		//--------------------------------------------------------------------------------------------[users dashboard]
 		}else{
 
-			$pageTitle = 'Your stats';
+			$pageTitle = 'You';
 
 			$hoursTotal = Stories::where('owner','=',Auth::user()->id)->sum('hours');
 			$hoursMonth = Stories::where('owner','=',Auth::user()->id)
 										->where('date','>=',date('Y-m-').'01' )->where('date','<=',date('Y-m-').'28')
 										->sum('hours');
+
+			$projectsMonth = DB::table('users')->select('projects.name','projects.id')
+					->leftJoin('stories','stories.owner','=','users.id')
+					->leftJoin('projects','stories.project','=','projects.id')
+					->where('stories.owner','=',Auth::user()->id)
+					->where('stories.date','>=',date('Y-m-').'01' )->where('stories.date','<=',date('Y-m-').'28')
+					->groupBy('projects.id')
+					->get();
 
 			$projects = DB::table('users')->select('projects.name','projects.id')
 					->leftJoin('stories','stories.owner','=','users.id')
@@ -79,13 +87,13 @@ class DashboardController extends Controller
 					->get();
 
 			foreach ($projects as $p ) {
-				$hoursProjects[$p->name] = Stories::where('owner','=',Auth::user()->id)
-																->where('project','=',$p->id)->sum('hours');
+				$hoursProjects[$p->name] = Stories::where('owner','=',Auth::user()->id)->where('project','=',$p->id)->sum('hours');
+				$hoursProjectsMonth[$p->name] = Stories::where('owner','=',Auth::user()->id)->where('project','=',$p->id)->where('stories.date','>=',date('Y-m-').'01' )->where('stories.date','<=',date('Y-m-').'28')->sum('hours');
 			}
 
 			$gravatar = User::find(Auth::user()->id)->gravatar;
 
-			$panel = view('bits.home-panel',compact('hoursTotal','hoursMonth','hoursProjects','projects','gravatar'));
+			$panel = view('bits.home-panel',compact('hoursTotal','hoursMonth','hoursProjects','projects','projectsMonth','hoursProjectsMonth','gravatar'));
 		}
 
       return view('home',compact('pageTitle','allProjects','allUsers','allDates','panel'));
